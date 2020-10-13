@@ -27,7 +27,7 @@ firebase.auth().signInWithEmailAndPassword("admin@admin.com","123456")
 const db = admin.firestore();
 var router = express.Router();
 
-route.get('/', (req, res, next) => {
+router.get('/', (req, res, next) => {
 	res.json({status: 'ok'})
 })
 

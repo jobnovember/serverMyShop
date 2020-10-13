@@ -35,7 +35,7 @@ router.get('/qr',function(req, res, next) {
   var tel = req.query.tel
   var amount = req.query.amount
   const payload = generatePayload(tel, amount)
-  res.send(payload)
+  res.json({qr:payload})
 })
 
 module.exports = router;

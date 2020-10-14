@@ -27,21 +27,43 @@ firebase.auth().signInWithEmailAndPassword("admin@admin.com","123456")
 const db = admin.firestore();
 var router = express.Router();
 
-router.get('/', (req, res, next) => {
-	res.json({status: 'ok'})
+router.get('/', function(req, res, next) {
+	res.send('qrcode generate')
 })
 
 router.get('/qr',function(req, res, next) {
-  var tel = req.query.tel
-  var money = req.query.amount
-  const payload = generatePayload(tel, {amount: money})
-  res.json({qr:payload})
+	var tel = req.query.tel
+	var money = 0
+	var amount = req.query.amount
+	if(amount != null) {
+		try {
+			const number = Number(amount)
+			if(number > 0){
+				money = number
+			}
+		}catch(err) {
+			console.log(err)
+		}
+	}
+	const payload = generatePayload(tel, {"amount" : money})
+	res.json({qr:payload})
 })
 
 router.get('/qr/image',(req, res, next) => {
 	var tel = req.query.tel 
-	var money = req.query.amount
-	const payload = generatePayload(tel, {amount: money})
+	var money = 0
+	var amount = req.query.amount
+	if(amount != null) {
+		try {
+			const number = Number(amount)
+			if(number > 0){
+				money = number
+			}
+		}catch(err) {
+			console.log(err)
+		}
+	}
+	const payload = generatePayload(tel, {"amount" : money})
 	const option = {type: 'svg', color: {dark: '#000', light: '#fff'}}
 	qrcode.toString(payload,option, (err, svg) => {
 		console.log(payload)

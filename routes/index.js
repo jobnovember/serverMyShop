@@ -33,9 +33,20 @@ router.get('/', (req, res, next) => {
 
 router.get('/qr',function(req, res, next) {
   var tel = req.query.tel
-  var amount = req.query.amount
-  const payload = generatePayload(tel, amount)
+  var money = req.query.amount
+  const payload = generatePayload(tel, {amount: money})
   res.json({qr:payload})
+})
+
+router.get('/qr/image',(req, res, next) => {
+	var tel = req.query.tel 
+	var money = req.query.amount
+	const payload = generatePayload(tel, {amount: money})
+	const option = {type: 'svg', color: {dark: '#000', light: '#fff'}}
+	qrcode.toString(payload,option, (err, svg) => {
+		console.log(payload)
+		res.send(svg)
+	})
 })
 
 module.exports = router;
